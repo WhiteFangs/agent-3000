@@ -14,6 +14,9 @@ function getEventType ($style) {
 		case 'color:#FF8833':
 		return "created";
 		break;
+		case 'color:red':
+		return "end";
+		break;
 		default:
 		return "unknown";
 		break;
@@ -28,6 +31,11 @@ function getNextChapter($ch) {
 	$homeXpath = getDOMXPath($homeHtml);
 
 	$karmaElement = $homeXpath->query('//h2/h2')->item(0);
+	if($karmaElement == null){
+		// $homeHtml = getCurlOutput($ch, $baseUrl . "register.php");
+		// echo $homeHtml;
+		return true;
+	}
 	$karmaValue = $karmaElement->nodeValue;
 	$karmaPositive = $karmaElement->getAttribute("style") === "color:#22DD22";
 
@@ -39,11 +47,12 @@ function getNextChapter($ch) {
 	foreach ($eventElements as $key => $event) {
 		$firstEventElementTag = $eventLinkElements->item($key)->firstChild->nodeName;
 		$eventLinkElement = ($firstEventElementTag == "a" || $firstEventElementTag == "font") ? $eventLinkElements->item($key)->firstChild : $eventLinkElements->item($key);
+		$eventType = getEventType($eventTypeElements->item($key)->getAttribute("style"));
 		$events[] = array(
 			"date" => $event->getAttribute("data-date"),
 			"link" => $eventLinkElement->getAttribute("href"),
 			"text" => preg_replace("/(\[.+\])/i", "", $eventLinkElement->nodeValue),
-			"type" => getEventType($eventTypeElements->item($key)->getAttribute("style"))
+			"type" => $eventType
 		);
 	}
 
@@ -85,11 +94,16 @@ function getNextChapter($ch) {
 
 	$choiceText = $choiceXpath->query('//div/h2')->item(0)->nodeValue;
 	var_dump($choiceText);
+	return false;
 }
 
 $ch = curl_init();
-for ($i=0; $i < 3; $i++) { 
-	getNextChapter($ch);
+for ($i=0; $i < 50; $i++) {
+	echo "CHAPTER:" . $i;
+	$finished = getNextChapter($ch);
+	if($finished) {
+		break;
+	}
 }
 curl_close($ch);
 
