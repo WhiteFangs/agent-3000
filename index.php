@@ -33,14 +33,16 @@ function getNextChapter($ch) {
 
 	$events = array();
 	$eventElements = $homeXpath->query('//ul/li');
-	$eventLinkElements = $homeXpath->query('//ul/li/h3/*[1]'); // TODO: fix case when no child to h3 for title
+	$eventLinkElements = $homeXpath->query('//ul/li/h3'); // TODO: fix case when no child to h3 for title
 	$eventTypeElements = $homeXpath->query('//ul/li/h3/h7');
 
 	foreach ($eventElements as $key => $event) {
+		$firstEventElementTag = $eventLinkElements->item($key)->firstChild->nodeName;
+		$eventLinkElement = ($firstEventElementTag == "a" || $firstEventElementTag == "font") ? $eventLinkElements->item($key)->firstChild : $eventLinkElements->item($key);
 		$events[] = array(
 			"date" => $event->getAttribute("data-date"),
-			"link" => $eventLinkElements->item($key)->getAttribute("href"),
-			"text" => $eventLinkElements->item($key)->nodeValue,
+			"link" => $eventLinkElement->getAttribute("href"),
+			"text" => preg_replace("/(\[.+\])/i", "", $eventLinkElement->nodeValue),
 			"type" => getEventType($eventTypeElements->item($key)->getAttribute("style"))
 		);
 	}
