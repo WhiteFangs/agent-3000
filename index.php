@@ -39,6 +39,8 @@ function getNextChapter($ch) {
 	$karmaValue = $karmaElement->nodeValue;
 	$karmaPositive = $karmaElement->getAttribute("style") === "color:#22DD22";
 
+	// TEXT: problem is still not fixed, or even worse, we have to alter the timeline
+
 	$events = array();
 	$eventElements = $homeXpath->query('//ul/li');
 	$eventLinkElements = $homeXpath->query('//ul/li/h3'); // TODO: fix case when no child to h3 for title
@@ -60,6 +62,8 @@ function getNextChapter($ch) {
 	var_dump($karmaPositive);
 	var_dump($events);
 
+	// TEXT: List of some events choices, hesitation
+
 	# Get event
 	$eventsWithLinks = array_filter($events, function($v, $k) {
 		return strlen($v["link"]) > 0;
@@ -67,6 +71,8 @@ function getNextChapter($ch) {
 	$event = $eventsWithLinks[array_rand($eventsWithLinks)];
 
 	var_dump($event);
+
+	// TEXT: Decide on an event and travel to it
 	
 	$eventHtml = getCurlOutput($ch, $baseUrl . $event["link"]);
 	$eventXpath = getDOMXPath($eventHtml);
@@ -84,16 +90,24 @@ function getNextChapter($ch) {
 	var_dump($eventText);
 	var_dump($choices);
 
+	// TEXT: Get some information about the event
+
+	// TEXT: Considering options, finding the two event changing choices, hesitation
+
 	# Make a choice
 	$choice = $choices[array_rand($choices)];
 
 	var_dump($choice);
+
+	// TEXT: decide a solution and apply it
 
 	$choiceHtml = getCurlOutput($ch, $baseUrl . $choice["link"]);
 	$choiceXpath = getDOMXPath($choiceHtml);
 
 	$choiceText = $choiceXpath->query('//div/h2')->item(0)->nodeValue;
 	var_dump($choiceText);
+
+	// TEXT: get the report from the manager with the results and validate it, let's see what's new now
 	return false;
 }
 
