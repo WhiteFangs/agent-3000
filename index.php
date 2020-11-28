@@ -4,7 +4,7 @@
 	<title>Agent 3000</title>
 	<style type="text/css">
 		body {
-			max-width: 60vw;
+			max-width: 480px;
 			margin: auto;
 			text-align: justify;
 		}
@@ -281,7 +281,7 @@
 		echo $close;
 
 		echo $openTeleportation;
-		echo "** Téléportation à travers l'espace et le temps, direction le présent **";
+		echo "** Téléportation à travers l'espace et le temps, direction 2050 **";
 		echo $close;
 
 		$split = splitChoiceText($content["choiceText"]);
