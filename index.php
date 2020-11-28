@@ -272,7 +272,7 @@
 		echo getRandomElement($searchingSolution) . " ";
 		echo getRandomElement($findingSolutions) . " ";
 		$template = getRandomElement($solutionsTemplate);
-		echo str_replace("2", lcfirst($content["choices"][1]["text"]), str_replace("1", lcfirst($content["choices"][0]["text"]), $template))  . " ";
+		echo ucfirst(str_replace("2", lcfirst($content["choices"][1]["text"]), str_replace("1", lcfirst($content["choices"][0]["text"]), $template))  . " ");
 		echo getRandomElement($hesitations) . " ";
 		echo getRandomElement($hesitations) . " ";
 		echo getRandomElement($decideSolution) . " ";
