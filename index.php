@@ -39,6 +39,7 @@
 
 	include("./utils.php");
 	include("./prologue.php");
+	include("./epilogue.php");
 	include("./texts.php");
 
 
@@ -308,6 +309,11 @@
 	}
 	curl_close($ch);
 
+	echo $openChapter;
+	echo $openTitle . 'Prologue' . $close;
+	echo $openContent . $epilogue . $close;
+	echo $close;
+	echo $openTitle . 'FIN' . $close;
 
 	?>
 </body>
