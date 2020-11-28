@@ -197,6 +197,7 @@
 			curl_close($ch);
 			$ch = curl_init();
 			$new = true;
+			$i--;
 			continue;
 		}
 		echo $openChapter;
@@ -214,7 +215,7 @@
 			}, ARRAY_FILTER_USE_BOTH);
 			if (!$new && count($createdEvents) > 0 && count($modifiedEvents) > 0) {
 				$created = getRandomElement($createdEvents);
-				$modified = getRandomElement($createdEvents);
+				$modified = getRandomElement($modifiedEvents);
 				echo $openDate;
 				echo '"' . eventToText($created) . '"';
 				echo $close;
@@ -230,7 +231,6 @@
 		echo $openParagraph;
 		echo "- " . getRandomElement($adventureCall) . " ";
 		echo getRandomElement($question) . " ";
-		echo getRandomElement($interjections) . getRandomElement($ponctuations);
 
 		$eventsWithLinks = array_filter($content["events"], function($v, $k) {
 			return strlen($v["link"]) > 0;
@@ -310,7 +310,7 @@
 	curl_close($ch);
 
 	echo $openChapter;
-	echo $openTitle . 'Prologue' . $close;
+	echo $openTitle . 'Epilogue' . $close;
 	echo $openContent . $epilogue . $close;
 	echo $close;
 	echo $openTitle . 'FIN' . $close;
