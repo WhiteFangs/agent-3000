@@ -762,7 +762,7 @@ $panicking = array(
 	"C'est la cata",
 	"C'est la mouise Louise",
 	"C'est la panique",
-	"Paniquez",
+	"Quelle horreur",
 	"Au secours",
 	"Nom d'une pipe",
 	"Nom d'un chien",

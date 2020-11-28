@@ -18,7 +18,6 @@ function getCURLOutput($ch, $url){
 	$output = curl_exec($ch);
 	if (curl_errno($ch)) {
 		$error_msg = curl_error($ch);
-		var_dump($error_msg);
 	}
 	return $output;
 }
