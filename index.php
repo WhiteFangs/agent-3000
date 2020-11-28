@@ -27,7 +27,11 @@
 			font-style: italic;
 			margin: 1em;
 		}
-		
+
+		.date {
+			font-style: italic;
+			display: inline;
+		}
 	</style>
 </head>
 <body>
@@ -171,8 +175,6 @@
 		return array("vous" => $vous, "reste" => $text);
 	}
 
-	$totalWords = 0;
-
 	$openChapter = '<div class="chapter">' . PHP_EOL;
 	$openTitle = '<div class="title">' . PHP_EOL;
 	$openContent = '<div class="content">' . PHP_EOL;
@@ -188,7 +190,7 @@
 
 	$ch = curl_init();
 	$new = true;
-	for ($i = 0; $i < 30; $i++) {
+	for ($i = 0; $i < 150; $i++) {
 		$content = getChapterContent($ch);
 		if($content["finished"]) {
 			curl_close($ch);
@@ -201,7 +203,7 @@
 		echo $openContent;
 		if ($i != 0) {
 			echo $openParagraph;
-			echo "- " . getRandomElement($panicking) . " !!! " . getRandomElement($panicking) . " !!! ";
+			echo "- Agent 3000 !!! " . getRandomElement($panicking) . " !!! " . getRandomElement($panicking) . " !!! ";
 			echo getRandomElement($unplanned) . " ";
 			$createdEvents = array_filter($content["events"], function($v, $k) {
 				return $v["type"] === "created";
@@ -213,11 +215,11 @@
 				$created = getRandomElement($createdEvents);
 				$modified = getRandomElement($createdEvents);
 				echo $openDate;
-				echo eventToText($created);
+				echo '"' . eventToText($created) . '"';
 				echo $close;
 				echo " ?! ";
 				echo $openDate;
-				echo eventToText($modified);
+				echo '"' . eventToText($modified) . '"';
 				echo $close;
 				echo " ?! ";
 			}
@@ -228,17 +230,15 @@
 		echo "- " . getRandomElement($adventureCall) . " ";
 		echo getRandomElement($question) . " ";
 		echo getRandomElement($interjections) . getRandomElement($ponctuations);
-		echo $close;
 
 		$eventsWithLinks = array_filter($content["events"], function($v, $k) {
 			return strlen($v["link"]) > 0;
 		}, ARRAY_FILTER_USE_BOTH);
 		shuffle($eventsWithLinks);
 
-		echo $openParagraph;
-		for ($k = 0; $k < 3; $k++) { 
+		for ($k = 0; $k < min(3, count($eventsWithLinks)); $k++) { 
 			echo $openDate;
-			echo eventToText($eventsWithLinks[$k]);
+			echo '"' . eventToText($eventsWithLinks[$k]) . '"';
 			echo $close;
 			echo getRandomElement($interjections) . getRandomElement($ponctuations);
 		}
